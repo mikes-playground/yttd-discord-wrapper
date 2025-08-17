@@ -3,52 +3,47 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="user-scalable=no" />
-  <title>RPG Maker MV – Discord Activity</title>
-  <link rel="icon" href="game/icon/icon.png" type="image/png" />
-  <link rel="apple-touch-icon" href="game/icon/icon.png" />
-  <link rel="stylesheet" href="game/fonts/gamefont.css" />
-  <style> canvas { image-rendering: pixelated; } html,body{margin:0;background:#000;} </style>
+  <title>RPG Maker MV – Discord Activity Wrapper</title>
+  <meta http-equiv="origin-trial" content="">
+  <style>
+    html,body { margin:0; height:100%; background:#000; color:#fff; font-family:system-ui,sans-serif; }
+    .center { display:grid; place-items:center; height:100%; }
+    a,button { font:inherit; padding:0.75rem 1rem; border-radius:12px; border:0; cursor:pointer; }
+  </style>
 </head>
 <body>
-  <!-- Discord SDK -->
+  <div class="center">
+    <button id="launch">Launch Game</button>
+  </div>
+
+  <!-- Discord Embedded App SDK -->
   <script src="https://unpkg.com/@discord/embedded-app-sdk/dist/index.js"></script>
   <script>
     const discordSdk = new window.DiscordSDK();
+
     (async () => {
       await discordSdk.ready();
       console.log("Discord SDK ready");
-      // Optional authorize (safe in static context)
+
+      // Optional: request a short-lived code (no secret needed)
       try {
-        await discordSdk.commands.authorize({
+        const { code } = await discordSdk.commands.authorize({
           client_id: "1406431572558876783",
           response_type: "code",
           state: "xyz",
           prompt: "none",
           scope: ["identify"]
         });
-      } catch (e) { console.warn(e); }
+        console.log("Auth code:", code);
+      } catch (e) {
+        console.warn("Authorize skipped/failed (okay for simple use):", e);
+      }
+
+      document.getElementById("launch").onclick = () => {
+        // Navigate into the copy of your game
+        window.location.href = "./game/index.html";
+      };
     })();
   </script>
-
-  <!-- Your (copied) RPG Maker MV game scripts, pointed to the /game/ folder -->
-  <script>
-    var $useStoragePrefix = true;
-    var $useDataFolder = false;
-    var $dataFolder = "game";
-  </script>
-  <script src="js/libs/pixi.js"></script>
-  <script src="js/libs/pixi-tilemap.js"></script>
-  <script src="js/libs/pixi-picture.js"></script>
-  <script src="js/libs/fpsmeter.js"></script>
-  <script src="js/libs/lz-string.js"></script>
-  <script src="js/libs/iphone-inline-video.browser.js"></script>
-  <script src="js/rpg_core.js"></script>
-  <script src="js/rpg_managers.js"></script>
-  <script src="js/rpg_objects.js"></script>
-  <script src="js/rpg_scenes.js"></script>
-  <script src="js/rpg_sprites.js"></script>
-  <script src="js/rpg_windows.js"></script>
-  <script src="js/plugins.js"></script>
-  <script src="js/main.js"></script>
 </body>
 </html>
