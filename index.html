@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="user-scalable=no" />
+  <title>RPG Maker MV – Discord Activity</title>
+  <link rel="icon" href="game/icon/icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="game/icon/icon.png" />
+  <link rel="stylesheet" href="game/fonts/gamefont.css" />
+  <style> canvas { image-rendering: pixelated; } html,body{margin:0;background:#000;} </style>
+</head>
+<body>
+  <!-- Discord SDK -->
+  <script src="https://unpkg.com/@discord/embedded-app-sdk/dist/index.js"></script>
+  <script>
+    const discordSdk = new window.DiscordSDK();
+    (async () => {
+      await discordSdk.ready();
+      console.log("Discord SDK ready");
+      // Optional authorize (safe in static context)
+      try {
+        await discordSdk.commands.authorize({
+          client_id: "1406431572558876783",
+          response_type: "code",
+          state: "xyz",
+          prompt: "none",
+          scope: ["identify"]
+        });
+      } catch (e) { console.warn(e); }
+    })();
+  </script>
+
+  <!-- Your (copied) RPG Maker MV game scripts, pointed to the /game/ folder -->
+  <script>
+    var $useStoragePrefix = true;
+    var $useDataFolder = false;
+    var $dataFolder = "";
+  </script>
+  <script src="game/js/libs/pixi.js"></script>
+  <script src="game/js/libs/pixi-tilemap.js"></script>
+  <script src="game/js/libs/pixi-picture.js"></script>
+  <script src="game/js/libs/fpsmeter.js"></script>
+  <script src="game/js/libs/lz-string.js"></script>
+  <script src="game/js/libs/iphone-inline-video.browser.js"></script>
+  <script src="game/js/rpg_core.js"></script>
+  <script src="game/js/rpg_managers.js"></script>
+  <script src="game/js/rpg_objects.js"></script>
+  <script src="game/js/rpg_scenes.js"></script>
+  <script src="game/js/rpg_sprites.js"></script>
+  <script src="game/js/rpg_windows.js"></script>
+  <script src="game/js/plugins.js"></script>
+  <script src="game/js/main.js"></script>
+</body>
+</html>
